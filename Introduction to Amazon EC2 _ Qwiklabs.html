@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://www.qwiklabs.com/focuses/11013?parent=catalog -->
+<html lang="en" class="mdl-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+<meta content="[]" name="active-experiments">
+<meta content="{&quot;userId&quot;:1416333}" name="help-api-product-data">
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="elG8uhitXriqHtRgOsbajW7+hL4xS8wftZX+sZOVTbKI4hifmBVVTw+0iadIHKkEJ0RUVUk6JOn5xqHDKC6dzg==">
+<title>Introduction to Amazon EC2 | Qwiklabs</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" name="viewport">
+<meta content="This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance." name="description">
+<meta content="Qwiklabs" name="author">
+<meta content="1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0" name="google-site-verification">
+<meta content="Introduction to Amazon EC2 | Qwiklabs" property="og:title">
+<meta content="website" property="og:type">
+<meta content="/favicon-144.png" property="og:image">
+<meta content="Qwiklabs" property="og:site_name">
+<meta content="This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance." property="og:description">
+<meta content="/qwiklabs_logo_900x887.png" property="og:logo" size="900x887">
+<meta content="/qwiklabs_logo_994x187.png" property="og:logo" size="994x187">
+<meta content="#3681E4" property="msapplication-TileColor">
+<meta content="/favicon-144.png" property="msapplication-TileImage">
+<link href="https://www.qwiklabs.com/favicon-32.png" rel="shortcut icon">
+<link color="#3681E4" href="https://www.qwiklabs.com/favicon-svg.svg" rel="mask-icon">
+<link href="https://www.qwiklabs.com/favicon-180.png" rel="apple-touch-icon-precomposed">
+<link rel="stylesheet" media="screen" href="./Introduction to Amazon EC2 _ Qwiklabs_files/css">
+
+
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script type="text/javascript" async="" src="./Introduction to Amazon EC2 _ Qwiklabs_files/js"></script><script type="text/javascript" async="" src="./Introduction to Amazon EC2 _ Qwiklabs_files/analytics.js"></script><script type="text/javascript" async="" src="./Introduction to Amazon EC2 _ Qwiklabs_files/analytics.min.js"></script><script type="text/javascript" id="www-widgetapi-script" src="./Introduction to Amazon EC2 _ Qwiklabs_files/www-widgetapi.js" async=""></script><script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"LAKSHYAJIT","lastname":"LAXMIKANT","fullname":"LAKSHYAJIT LAXMIKANT","company":"Coursera","email":"lakshyajit165@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"789f4b2951493e14c965318ea3146db7","qlCreatedAt":"2019-02-08 14:17:59 UTC","optIn":true};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id="ze-snippet" src="./Introduction to Amazon EC2 _ Qwiklabs_files/snippet.js"></script>
+
+
+
+<link rel="stylesheet" media="all" href="./Introduction to Amazon EC2 _ Qwiklabs_files/application-152a9c1b783ef6577930175aa3aa7549e09c5d70af2f3bc2be1f1a6e692348de.css">
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="./Introduction to Amazon EC2 _ Qwiklabs_files/webcomponents-loader.js"></script><script src="./Introduction to Amazon EC2 _ Qwiklabs_files/webcomponents-hi.js"></script>
+<script src="./Introduction to Amazon EC2 _ Qwiklabs_files/hallofmirrors-aea5769f37d249bb9cf243cca4737e39037048878dbe09596795482ff1769c4b.js"></script><script async="" src="./Introduction to Amazon EC2 _ Qwiklabs_files/lazy.min.js"></script>
+<script src="./Introduction to Amazon EC2 _ Qwiklabs_files/iframe_api"></script>
+<script src="./Introduction to Amazon EC2 _ Qwiklabs_files/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="./Introduction to Amazon EC2 _ Qwiklabs_files/application-b8f24b563e7f6b4a399091631f253a394e419e33d6c909ef27e223b366f52750.js"></script>
+</head>
+<body class="focuses focuses-show lab-show l-full no-nav" cz-shortcut-listen="true" style="">
+<div class="header-container light-theme">
+<div class="header">
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle" data-upgraded=",MaterialButton,MaterialRipple">
+<i class="material-icons">menu</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<div class="header__title">
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/3" data-upgraded=",MaterialButton,MaterialRipple"><ql-icon>arrow_back</ql-icon><span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+
+<h1 class="headline-5">
+Introduction to Amazon EC2
+</h1>
+</div>
+<div class="header__actions">
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button" data-upgraded=",MaterialButton,MaterialRipple">
+<i class="material-icons">search</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;" data-upgraded=",MaterialButton,MaterialRipple" tabindex="0"><i class="material-icons">description</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a><div class="mdl-tooltip js-tooltip" data-mdl-for="toggle-lab-control-panel" data-upgraded=",MaterialTooltip">
+Toggle Lab Panel
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-11013-favorite-button" data-type="CatalogItem" data-id="11013" data-name="Introduction to Amazon EC2" href="https://www.qwiklabs.com/favorite.json?item_id=11013&amp;item_type=CatalogItem" data-upgraded=",MaterialButton,MaterialRipple" tabindex="0"><i class="material-icons">favorite_border</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a><div class="mdl-tooltip js-tooltip" for="CatalogItem-11013-favorite-button" data-upgraded=",MaterialTooltip">
+Add to favorites
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:1416333}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class="header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button" data-upgraded=",MaterialButton,MaterialRipple">
+<img class="avatar " alt="avatar image" src="./Introduction to Amazon EC2 _ Qwiklabs_files/31c99f8d33487203415d57025d4a6b43.png">
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<div class="header-my-account-menu js-my-account-menu">
+<div class="card elevation-2 no-padding">
+<div class="my-account-menu__top">
+<img class="avatar " alt="avatar image" src="./Introduction to Amazon EC2 _ Qwiklabs_files/31c99f8d33487203415d57025d4a6b43.png">
+<div class="my-account-menu__info">
+<h4 class="subtitle-headline-1">
+LAKSHYAJIT LAXMIKANT
+</h4>
+<p class="body-2 text--gray">
+<span>lakshyajit165@gmail.com</span>
+</p>
+<a class="button" href="https://www.qwiklabs.com/my_account/profile">My Account</a>
+</div>
+</div>
+<div class="my-account-menu__bottom">
+<a class="text--green subtitle-headline-2" href="https://www.qwiklabs.com/my_account/credits">Monthly Subscription
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="https://www.qwiklabs.com/users/sign_out">Sign Out</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="header__search-bar js-header-search-bar">
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="https://www.qwiklabs.com/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="elG8uhitXriqHtRgOsbajW7+hL4xS8wftZX+sZOVTbKI4hifmBVVTw+0iadIHKkEJ0RUVUk6JOn5xqHDKC6dzg==">
+<input type="text" name="keywords" id="keywords" placeholder="Search" maxlength="255" aria-label="catalog search bar">
+</form>
+
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button" data-upgraded=",MaterialButton,MaterialRipple">
+<i class="material-icons">close</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+</div>
+</div>
+
+<nav class="nav-bar">
+<a class="nav-bar__item js-navigation-button" href="https://www.qwiklabs.com/"><ql-icon class="nav-bar__item__icon">
+home
+</ql-icon>
+<span class="nav-bar__item__label">
+Home
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="https://www.qwiklabs.com/catalog"><ql-icon class="nav-bar__item__icon">
+school
+</ql-icon>
+<span class="nav-bar__item__label">
+Catalog
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="https://www.qwiklabs.com/my_learning"><ql-icon class="nav-bar__item__icon">
+event_note
+</ql-icon>
+<span class="nav-bar__item__label">
+My Learning
+</span>
+</a>
+</nav>
+
+<nav class="nav-panel js-nav-panel">
+<div class="nav-panel__logo">
+<div class="logo logo--blue"></div>
+</div>
+<a title="Home" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/"><ql-icon class="nav-panel__item__icon">
+home
+</ql-icon>
+<div class="nav-panel__item__label">
+Home
+</div>
+</a>
+<a title="Catalog" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="https://www.qwiklabs.com/catalog"><ql-icon class="nav-panel__item__icon">
+school
+</ql-icon>
+<div class="nav-panel__item__label">
+Catalog
+</div>
+</a>
+<a title="My Learning" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_learning"><ql-icon class="nav-panel__item__icon">
+event_note
+</ql-icon>
+<div class="nav-panel__item__label">
+My Learning
+</div>
+</a>
+<div class="nav-panel__spacer"></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_account/profile"><ql-icon class="nav-panel__item__icon">
+account_circle
+</ql-icon>
+<div class="nav-panel__item__label">
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_account/credits"><ql-icon class="nav-panel__item__icon">
+money
+</ql-icon>
+<div class="nav-panel__item__label">
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_account/security"><ql-icon class="nav-panel__item__icon">
+security
+</ql-icon>
+<div class="nav-panel__item__label">
+Security
+</div>
+</a>
+<div class="nav-panel__spacer"></div>
+<a class="nav-panel__item" tabindex="-1" href="https://www.qwiklabs.com/focuses/11013?parent=catalog#"><ql-help>
+<div class="nav-panel__help-item">
+<ql-icon class="nav-panel__item__icon">help</ql-icon>
+<div class="nav-panel__item__label">Help</div>
+</div>
+</ql-help>
+</a><div class="nav-panel__small-links">
+<a tabindex="-1" href="https://www.qwiklabs.com/privacy_policy">Privacy</a>
+<a tabindex="-1" href="https://www.qwiklabs.com/terms_of_service">Terms</a>
+</div>
+</nav>
+<div class="nav-panel__overlay js-nav-toggle"></div>
+
+<main class="js-main">
+<span class="hidden" id="flash-sibling-before"></span>
+
+<div class="l-main-wrapper" id="main-wrapper">
+
+
+
+
+
+
+
+<div class="js-lab-state" data-analytics-payload="{&quot;label&quot;:&quot;Introduction to Amazon EC2&quot;,&quot;lab_name&quot;:&quot;Introduction to Amazon EC2&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}" data-focus-id="11013" data-lab-billing-limit="0.0" data-lab-duration="3600" data-parent="catalog" data-payment-required=""></div>
+<ql-lab-control-panel class="js-lab-control-panel l-lab-control-panel" connectiondetails="[]" connectionfiles="[]" labcontrolbutton="{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}" labtimer="{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3600}" studentresources="[]"></ql-lab-control-panel>
+<div class="l-lab-main-body">
+<div class="js-lab-content lab-content">
+<div class="alert alert--fake js-alert">
+<p class="alert__message js-alert-message"></p>
+<a class="alert__close js-alert-close">
+<i class="fa fa-times"></i>
+</a>
+<iframe class="l-ie-iframe-fix" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource.html"></iframe>
+</div>
+<div class="lab-content__markdown-wrapper">
+<div class="lab-preamble">
+<h1 class="lab-preamble__title">
+Introduction to Amazon EC2
+</h1>
+<div class="lab-preamble__details subtitle-headline-1">
+<span>1 hour </span>
+<span>1 Credit</span>
+<div class="lab__rating">
+<a href="https://www.qwiklabs.com/focuses/11013/reviews?parent=catalog"><div class="rateit" data-rateit-readonly="true" data-rateit-value="4.5148"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 72.2368px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+
+</a><a data-target="#lab-review-modal" data-toggle="modal">
+Rate Lab
+</a>
+</div>
+</div>
+</div>
+
+<div class="lab-content__inner-wrapper">
+<div class="js-markdown-instructions lab-content__markdown markdown-lab-instructions no-select" id="markdown-lab-instructions">
+<p><img src="./Introduction to Amazon EC2 _ Qwiklabs_files/aws-logo.png" alt=""></p>
+
+
+
+<p><strong>SPL-200 - Version 1.2.6</strong></p>
+
+<p>© 2020 Amazon Web Services, Inc. and its affiliates. All rights reserved. This work may not be reproduced or redistributed, in whole or in part, without prior written permission from Amazon Web Services, Inc. Commercial copying, lending, or selling is prohibited.</p>
+
+<p>Errors or corrections? Email us at <a href="mailto:aws-course-feedback@amazon.com" target="_blank">aws-course-feedback@amazon.com</a>.</p>
+
+<p>Other questions? Contact us at <a href="https://aws.amazon.com/contact-us/aws-training/" target="_blank">https://aws.amazon.com/contact-us/aws-training/</a></p>
+
+<h2 id="step1">Overview</h2>
+
+<p>This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance.</p>
+
+<p><strong>Amazon Elastic Compute Cloud (Amazon EC2)</strong> is a web service that provides resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers.</p>
+
+<p>Amazon EC2's simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon's proven computing environment. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.</p>
+
+<p>Amazon EC2 changes the economics of computing by allowing you to pay only for capacity that you actually use. Amazon EC2 provides developers the tools to build failure resilient applications and isolate themselves from common failure scenarios.</p>
+
+<h3>Topics covered</h3>
+
+<p>By the end of this lab, you will be able to:</p>
+<ul>
+<li>Launch a web server with termination protection enabled</li>
+<li>Monitor Your EC2 instance</li>
+<li>Modify the security group that your web server is using to allow HTTP access</li>
+<li>Resize your Amazon EC2 instance to scale</li>
+<li>Explore EC2 limits</li>
+<li>Test termination protection</li>
+<li>Terminate your EC2 instance</li>
+</ul>
+
+
+<h2 id="step2">Start Lab</h2>
+<ol start="1">
+<li>At the top of your screen, launch your lab by clicking <span style="background-color:#34A853;font-family:Google Sans;font-weight:bold;font-size:90%;color:white;border-color:#34A853;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Start Lab</span>
+</li>
+</ol>
+<p>This will start the process of provisioning your lab resources. An estimated amount of time to provision your lab resources will be displayed. You must wait for your resources to be provisioned before continuing.</p>
+
+<p><i class="fas fa-info-circle"></i> If you are prompted for a token, use the one distributed to you (or credits you have purchased). </p>
+<ol start="2">
+<li>Open your lab by clicking <span style="background-color:white;font-family:Google Sans;font-weight:bold;font-size:90%;color:#1a73e8;border-color:#dadce0;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Open Console</span>
+</li>
+</ol>
+<p>This will automatically log you into the AWS Management Console. </p>
+
+<p><i class="fas fa-exclamation-triangle"></i> <strong>Please do not change the Region unless instructed</strong>.</p>
+
+
+
+<h3>Common login errors</h3>
+
+<p><strong>Error : Federated login credentials</strong></p>
+
+<p><img src="./Introduction to Amazon EC2 _ Qwiklabs_files/federatedloginerror.png" alt=""></p>
+
+<p>If you see this message:</p>
+<ul>
+<li>Close the browser tab to return to your initial lab window</li>
+<li>Wait a few seconds</li>
+<li>Click <span style="background-color:white;font-family:Google Sans;font-weight:bold;font-size:90%;color:#1a73e8;border-color:#dadce0;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Open Console</span> again</li>
+</ul>
+<p>You should now be able to access the AWS Management Console.</p>
+
+
+
+<p><strong>Error: You must first log out</strong></p>
+
+<p><img src="./Introduction to Amazon EC2 _ Qwiklabs_files/logouterror.png" alt=""></p>
+
+<p>If you see the message, <strong>You must first log out before logging into a different AWS account:</strong> </p>
+<ul>
+<li>Click <strong>click here</strong>
+</li>
+<li>Close your browser tab to return to your initial Qwiklabs window</li>
+<li>Click <span style="background-color:white;font-family:Google Sans;font-weight:bold;font-size:90%;color:#1a73e8;border-color:#dadce0;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Open Console</span> again</li>
+</ul>
+
+
+<h2 id="step3">Task 1: Launch Your Amazon EC2 Instance</h2>
+
+<p>In this task, you will launch an Amazon EC2 instance with <em>termination protection</em>. Termination protection prevents you from accidentally terminating an EC2 instance. You will deploy your instance with a User Data script that will allow you to deploy a simple web server.</p>
+<ol start="3">
+<li><p>In the <strong>AWS Management Console</strong> on the <span style="background-color:#232f3e;font-weight:bold;font-size:90%;color:white;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;">Services</span> menu, click <strong>EC2</strong>.</p></li>
+<li><p>Click <span style="background-color:#ec7211;font-weight:bold;font-size:90%;color:white;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Launch instance</span> &gt; <strong>Launch instance</strong>.</p></li>
+</ol>
+<h3>Step 1: Choose an Amazon Machine Image (AMI)</h3>
+
+<p><i class="fas fa-info-circle"></i> An <strong>Amazon Machine Image (AMI)</strong> provides the information required to launch an instance, which is a virtual server in the cloud. An AMI includes:</p>
+<ul>
+<li>A template for the root volume for the instance (for example, an operating system or an application server with applications)</li>
+<li>Launch permissions that control which AWS accounts can use the AMI to launch instances</li>
+<li>A block device mapping that specifies the volumes to attach to the instance when it is launched</li>
+</ul>
+<p>The <strong>Quick Start</strong> list contains the most commonly-used AMIs. You can also create your own AMI or select an AMI from the AWS Marketplace, an online store where you can sell or buy software that runs on AWS.</p>
+<ol start="5">
+<li>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Select</span> next to <strong>Amazon Linux 2 AMI</strong> (at the top of the list).</li>
+</ol>
+<h3>Step 2: Choose an Instance Type</h3>
+
+<p><i class="fas fa-info-circle"></i> Amazon EC2 provides a wide selection of <em>instance types</em> optimized to fit different use cases. Instance types comprise varying combinations of CPU, memory, storage, and networking capacity and give you the flexibility to choose the appropriate mix of resources for your applications. Each instance type includes one or more <em>instance sizes</em>, allowing you to scale your resources to the requirements of your target workload.</p>
+<ol start="6">
+<li>Scroll down and select <i class="fas fa-square" style="color:blue;"></i> <strong>t3.micro</strong>.</li>
+</ol>
+<p>A <strong>t3.micro</strong> instance type has 2 virtual CPUs and 1 GiB of memory.</p>
+<ol start="7">
+<li>Click <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Next: Configure Instance Details</span>
+</li>
+</ol>
+<h3>Step 3: Configure Instance Details</h3>
+
+<p>This page is used to configure the instance to suit your requirements. This includes networking and monitoring settings.</p>
+
+<p>The <strong>Network</strong> indicates which Virtual Private Cloud (VPC) you wish to launch the instance into. You can have multiple networks, such as different ones for development, testing and production.</p>
+<ol start="8">
+<li>For <strong>Network</strong>, select <strong>Lab VPC</strong>.</li>
+</ol>
+<p>The Lab VPC was created using a CloudFormation template during the setup process of your lab. This VPC includes two public subnets in two different Availability Zones.</p>
+<ol start="9">
+<li>For <strong>Enable termination protection</strong>, select <i class="far fa-check-square"></i> <strong>Protect against accidental termination</strong>.</li>
+</ol>
+<p><i class="fas fa-info-circle"></i> When an Amazon EC2 instance is no longer required, it can be <em>terminated</em>, which means that the instance is stopped and its resources are released. A terminated instance cannot be started again. If you want to prevent the instance from being accidentally terminated, you can enable <em>termination protection</em> for the instance, which prevents it from being terminated.</p>
+<ol start="10">
+<li>Scroll down, then expand <i class="fas fa-caret-right"></i> <strong>Advanced Details</strong>.</li>
+</ol>
+<p>A field for <strong>User data</strong> will appear.</p>
+
+<p><i class="fas fa-info-circle"></i>  When you launch an instance, you can pass <em>user data</em> to the instance that can be used to perform common automated configuration tasks and even run scripts after the instance starts.</p>
+
+<p>Your instance is running Amazon Linux, so you will provide a <em>shell script</em> that will run when the instance starts.</p>
+<ol start="11">
+<li>Copy the following commands and paste them into the <strong>User data</strong> field:</li>
+</ol><pre class="highlight plaintext"><code>#!/bin/bash
+yum -y install httpd
+systemctl enable httpd
+systemctl start httpd
+echo '&lt;html&gt;&lt;h1&gt;Hello From Your Web Server!&lt;/h1&gt;&lt;/html&gt;' &gt; /var/www/html/index.html
+</code><button class="button button--copy js-copy-button-0"><i class="fa fa-clipboard"></i></button></pre>
+<p>The script will:</p>
+<ul>
+<li>Install an Apache web server (httpd)</li>
+<li>Configure the web server to automatically start on boot</li>
+<li>Activate the Web server</li>
+<li>Create a simple web page</li>
+</ul><ol start="12">
+<li>Click <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Next: Add Storage</span>
+</li>
+</ol>
+<h3>Step 4: Add Storage</h3>
+
+<p><i class="fas fa-info-circle"></i> Amazon EC2 stores data on a network-attached virtual disk called <em>Elastic Block Store</em>.</p>
+
+<p>You will launch the Amazon EC2 instance using a default 8 GiB disk volume. This will be your root volume (also known as a 'boot' volume).</p>
+<ol start="13">
+<li>Click <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Next: Add Tags</span>
+</li>
+</ol>
+<h3>Step 5: Add Tags</h3>
+
+<p><i class="fas fa-info-circle"></i> Tags enable you to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. This is useful when you have many resources of the same type — you can quickly identify a specific resource based on the tags you have assigned to it. Each tag consists of a Key and a Value, both of which you define.</p>
+<ol start="14">
+<li>Click <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Add Tag</span> then configure:</li>
+</ol><ul>
+<li>
+<strong>Key:</strong> <input readonly="" class="copyable-inline-input" size="4" type="text" value="Name">
+</li>
+<li>
+<strong>Value:</strong> <input readonly="" class="copyable-inline-input" size="10" type="text" value="Web Server">
+</li>
+</ul><ol start="15">
+<li>Click <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Next: Configure Security Group</span>
+</li>
+</ol>
+<h3>Step 6: Configure Security Group</h3>
+
+<p><i class="fas fa-info-circle"></i> A <em>security group</em> acts as a virtual firewall that controls the traffic for one or more instances. When you launch an instance, you associate one or more security groups with the instance. You add <em>rules</em> to each security group that allow traffic to or from its associated instances. You can modify the rules for a security group at any time; the new rules are automatically applied to all instances that are associated with the security group.</p>
+<ol start="16">
+<li>On <strong>Step 6: Configure Security Group</strong>, configure:</li>
+</ol>
+<p>Keep the default selection, Create a <strong>new</strong> security group.</p>
+<ul>
+<li>
+<strong>Security group name:</strong> <input readonly="" class="copyable-inline-input" size="25" type="text" value="Web Server security group">
+</li>
+<li>
+<strong>Description:</strong> <input readonly="" class="copyable-inline-input" size="32" type="text" value="Security group for my web server">
+</li>
+</ul>
+<p>In this lab, you will not log into your instance using SSH. Removing SSH access will improve the security of the instance.</p>
+<ol start="17">
+<li><p>Delete <i class="fas fa-times-circle"></i> the existing SSH rule.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Review and Launch</span></p></li>
+</ol>
+<h3>Step 7: Review Instance Launch</h3>
+
+<p>The Review page displays the configuration for the instance you are about to launch.</p>
+<ol start="19">
+<li>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Launch</span>
+</li>
+</ol>
+<p>A <strong>Select an existing key pair or create a new key pair</strong> window will appear.</p>
+
+<p><i class="fas fa-info-circle"></i> Amazon EC2 uses public–key cryptography to encrypt and decrypt login information. To log in to your instance, you must create a key pair, specify the name of the key pair when you launch the instance, and provide the private key when you connect to the instance.</p>
+
+<p>In this lab you will not log into your instance, so you do not require a key pair.</p>
+
+<p><i class="fas fa-exclamation-triangle" style="color:red;"></i> <i class="fas fa-exclamation-triangle" style="color:red;"></i> <i class="fas fa-exclamation-triangle" style="color:red;"></i> YOU MUST select <strong>Proceed without a key pair</strong> below. If you do not select this, your instance will fail to launch. <i class="fas fa-exclamation-triangle" style="color:red;"></i> <i class="fas fa-exclamation-triangle" style="color:red;"></i> <i class="fas fa-exclamation-triangle" style="color:red;"></i>  </p>
+<ol start="20">
+<li><p>Click the <strong>Choose an existing key pair</strong> <i class="fas fa-angle-down"></i> drop-down and select <span style="background-color:yellow;"> <strong>Proceed without a key pair</strong> </span></p></li>
+<li><p>Select <i class="far fa-check-square"></i> <strong>I acknowledge that ...</strong>.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Launch Instances</span></p></li>
+</ol>
+<p>Your instance will now be launched.</p>
+<ol start="23">
+<li>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">View Instances</span>
+</li>
+</ol>
+<p>The instance will appear in a <em>pending</em> state, which means it is being launched. It will then change to <em>running</em>, which indicates that the instance has started booting. There will be a short time before you can access the instance.</p>
+
+<p>The instance receives a <em>public DNS name</em> that you can use to contact the instance from the Internet.</p>
+
+<p>Your <i class="fas fa-square" style="color:blue;"></i> <strong>Web Server</strong> should be selected. The <strong>Description</strong> tab displays detailed information about your instance.</p>
+
+<p><i class="fas fa-comment"></i> To view more information in the Description tab, drag the window divider upwards.</p>
+
+<p>Review the information displayed in the <strong>Description</strong> tab. It includes information about the instance type, security settings and network settings.</p>
+<ol start="24">
+<li>Wait for your instance to display the following:</li>
+</ol><ul>
+<li>
+<strong>Instance State:</strong> <span style="color:green;"><i class="fas fa-circle"></i></span> running</li>
+<li>
+<strong>Status Checks:</strong>  <span style="color:green;"><i class="fas fa-check-circle"></i></span> 2/2 checks passed</li>
+</ul>
+<p><span style="color:blue;"><i class="far fa-thumbs-up"></i></span> <strong>Congratulations!</strong> You have successfully launched your first Amazon EC2 instance.</p>
+
+
+
+<h2 id="step4">Task 2: Monitor Your Instance</h2>
+
+<p>Monitoring is an important part of maintaining the reliability, availability, and performance of your Amazon Elastic Compute Cloud (Amazon EC2) instances and your AWS solutions.</p>
+<ol start="25">
+<li>Click the <strong>Status Checks</strong> tab.</li>
+</ol>
+<p><i class="fas fa-info-circle"></i> With instance status monitoring, you can quickly determine whether Amazon EC2 has detected any problems that might prevent your instances from running applications. Amazon EC2 performs automated checks on every running EC2 instance to identify hardware and software issues.</p>
+
+<p>Notice that both the <strong>System reachability</strong> and <strong>Instance reachability</strong> checks have passed.</p>
+<ol start="26">
+<li>Click the <strong>Monitoring</strong> tab.</li>
+</ol>
+<p>This tab displays CloudWatch metrics for your instance. Currently, there are not many metrics to display because the instance was recently launched.</p>
+
+<p>You can click on a graph to see an expanded view.</p>
+
+<p><i class="fas fa-info-circle"></i> Amazon EC2 sends metrics to Amazon CloudWatch for your EC2 instances. Basic (five-minute) monitoring is enabled by default. You can enable detailed (one-minute) monitoring.</p>
+<ol start="27">
+<li>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance Settings</strong> <i class="fas fa-caret-right"></i> <strong>Get System Log</strong>.</li>
+</ol>
+<p>The System Log displays the console output of the instance, which is a valuable tool for problem diagnosis. It is especially useful for troubleshooting kernel problems and service configuration issues that could cause an instance to terminate or become unreachable before its SSH daemon can be started. <em>If you do not see a system log, wait several minutes and then try again.</em></p>
+<ol start="28">
+<li>Scroll through the output and note that the HTTP package was installed from the <strong>user data</strong> that you added when you created the instance.</li>
+</ol>
+<p><img src="./Introduction to Amazon EC2 _ Qwiklabs_files/Console-output.png" alt="Console-Output"></p>
+<ol start="29">
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Close</span></p></li>
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance Settings</strong> <i class="fas fa-caret-right"></i> <strong>Get Instance Screenshot</strong>.</p></li>
+</ol>
+<p>This shows you what your Amazon EC2 instance console would look like if a screen were attached to it.</p>
+
+<p><img src="./Introduction to Amazon EC2 _ Qwiklabs_files/Screen-shot.png" alt="Screen-shot"></p>
+
+<p><i class="fas fa-info-circle"></i> If you are unable to reach your instance via SSH or RDP, you can capture a screenshot of your instance and view it as an image. This provides visibility as to the status of the instance, and allows for quicker troubleshooting.</p>
+<ol start="31">
+<li>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Close</span>
+</li>
+</ol>
+<p><span style="color:blue;"><i class="far fa-thumbs-up"></i></span> <strong>Congratulations!</strong> You have explored several ways to monitor your instance.</p>
+
+
+
+<h2 id="step5">Task 3: Update Your Security Group and Access the Web Server</h2>
+
+<p>When you launched the EC2 instance, you provided a script that installed a web server and created a simple web page. In this task, you will access content from the web server.</p>
+<ol start="32">
+<li><p>Click the <strong>Description</strong> tab.</p></li>
+<li><p>Copy the <strong>IPv4 Public IP</strong> of your instance to your clipboard.</p></li>
+<li><p>Open a new tab in your web browser, paste the IP address you just copied, then press <strong>Enter</strong>.</p></li>
+</ol>
+<p><strong>Question:</strong> Are you able to access your web server? Why not?</p>
+
+<p>You are <strong>not</strong> currently able to access your web server because the <em>security group</em> is not permitting inbound traffic on port 80, which is used for HTTP web requests. This is a demonstration of using a security group as a firewall to restrict the network traffic that is allowed in and out of an instance.</p>
+
+<p>To correct this, you will now update the security group to permit web traffic on port 80.</p>
+<ol start="35">
+<li><p>Keep the browser tab open, but return to the <strong>EC2 Management Console</strong> tab.</p></li>
+<li><p>In the left navigation pane, click <strong>Security Groups</strong>.</p></li>
+<li><p>Select <i class="fas fa-square" style="color:blue;"></i> <strong>Web Server security group</strong>.</p></li>
+<li><p>Click the <strong>Inbound rules</strong> tab.</p></li>
+</ol>
+<p>The security group currently has no rules.</p>
+<ol start="39">
+<li><p>Click <span style="background-color:white;font-weight:bold;font-size:90%;color:#545b64;border-color:#545b64;border-radius:2px;border-width:1px;border-style:solid;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;">Edit inbound rules</span>.</p></li>
+<li><p>Click <span style="background-color:white;font-weight:bold;font-size:90%;color:#545b64;border-color:#545b64;border-radius:2px;border-width:1px;border-style:solid;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;">Add rule</span> then configure:</p></li>
+</ol><ul>
+<li>
+<strong>Type:</strong> <em>HTTP</em>
+</li>
+<li>
+<strong>Source:</strong> <em>Anywhere</em>
+</li>
+<li>Click <span style="background-color:#ec7211;font-weight:bold;font-size:90%;color:white;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Save rules</span>
+</li>
+</ul>
+<p>The new Inbound HTTP rule will create an entry for both IPV4 IP address (0.0.0.0/0) as well as IPV6 IP address (::/0).</p>
+
+<p><strong>Note:</strong> using "Anywhere", or more specifically, using 0.0.0.0/0 or ::/0 is not a recommended best practice for production workloads.</p>
+<ol start="41">
+<li>Return to the web server tab that you previously opened and refresh <i class="fas fa-sync"></i> the page.</li>
+</ol>
+<p>You should see the message <em>Hello From Your Web Server!</em></p>
+
+<p><span style="color:blue;"><i class="far fa-thumbs-up"></i></span> <strong>Congratulations!</strong> You have successfully modified your security group to permit HTTP traffic into your Amazon EC2 Instance.</p>
+
+
+
+<h2 id="step6">Task 4: Resize Your Instance: Instance Type and EBS Volume</h2>
+
+<p>As your needs change, you might find that your instance is over-utilized (too small) or under-utilized (too large). If so, you can change the <em>instance type</em>. For example, if a <em>t3.micro</em> instance is too small for its workload, you can change it to an <em>t3.small</em> instance. Similarly, you can change the size of a disk.</p>
+
+<h3>Stop Your Instance</h3>
+
+<p>Before you can resize an instance, you must <em>stop</em> it.</p>
+
+<p><i class="fas fa-info-circle"></i> When you stop an instance, it is shut down. There is no charge for a stopped EC2 instance, but the storage charge for attached Amazon EBS volumes remains.</p>
+<ol start="42">
+<li>On the <strong>EC2 Management Console</strong>, in the left navigation pane, click <strong>Instances</strong>.</li>
+</ol>
+<p><i class="fas fa-square" style="color:blue;"></i> <strong>Web Server</strong> should already be selected.</p>
+<ol start="43">
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance State</strong> <i class="fas fa-caret-right"></i> <strong>Stop</strong>.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Yes, Stop</span></p></li>
+</ol>
+<p>Your instance will perform a normal shutdown and then will stop running.</p>
+<ol start="45">
+<li>Wait for the <strong>Instance State</strong> to display: <span style="color:red;"><i class="fas fa-circle"></i></span> stopped</li>
+</ol>
+<h3>Change The Instance Type</h3>
+<ol start="46">
+<li>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance Settings</strong> <i class="fas fa-caret-right"></i> <strong>Change Instance Type</strong>, then configure:</li>
+</ol><ul>
+<li>
+<strong>Instance Type:</strong> <em>t3.small</em>
+</li>
+<li>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Apply</span>
+</li>
+</ul>
+<p>When the instance is started again it will be a <em>t3.small</em>, which has twice as much memory as a <em>t3.micro</em> instance.</p>
+
+<h3>Resize the EBS Volume</h3>
+<ol start="47">
+<li><p>In the left navigation menu, click <strong>Volumes</strong>.</p></li>
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Modify Volume</strong>.</p></li>
+</ol>
+<p>The disk volume currently has a size of 8 GiB. You will now increase the size of this disk.</p>
+<ol start="49">
+<li><p>Change the size to: <input readonly="" class="copyable-inline-input" size="2" type="text" value="10"></p></li>
+<li><p>Click <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Modify</span></p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Yes</span> to confirm and increase the size of the volume.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Close</span></p></li>
+</ol>
+<h3>Start the Resized Instance</h3>
+
+<p>You will now start the instance again, which will now have more memory and more disk space.</p>
+<ol start="53">
+<li><p>In left navigation pane, click <strong>Instances</strong>.</p></li>
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance State</strong> <i class="fas fa-caret-right"></i> <strong>Start</strong>.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Yes, Start</span></p></li>
+</ol>
+<p><strong>Note:</strong> An EBS volume being modified goes through a sequence of states: Modifying, Optimizing, and finally Complete.</p>
+
+<p><span style="color:blue;"><i class="far fa-thumbs-up"></i></span> <strong>Congratulations!</strong> You have successfully resized your Amazon EC2 Instance. In this task you changed your instance type from <em>t3.micro</em> to a <em>t3.small</em>. You also modified your root disk volume from 8 GiB to 10 GiB.</p>
+
+
+
+<h2 id="step7">Task 5: Explore EC2 Limits</h2>
+
+<p>Amazon EC2 provides different resources that you can use. These resources include images, instances, volumes, and snapshots. When you create an AWS account, there are default limits on these resources on a per-region basis.</p>
+<ol start="56">
+<li><p>In the left navigation pane, click <strong>Limits</strong>.</p></li>
+<li><p>Click the <strong>All limits</strong> <i class="fas fa-caret-down"></i> and select <strong>Running instances</strong>.</p></li>
+</ol>
+<p>Notice that there is a limit for the instance type based on the number of vCPUs required. For example, <strong>For running On-Demand All Inf instances</strong>, you have a limit of 64 vCPUs. A t3.miro instance requires 2 vCPUs. Therefore, in this region, you could launch 32 t3.micro instances in this region.</p>
+
+<p>You can request an increase for many of these limits.</p>
+
+
+
+<h2 id="step8">Task 6: Test Termination Protection</h2>
+
+<p>You can delete your instance when you no longer need it. This is referred to as <em>terminating</em> your instance. You cannot connect to or restart an instance after it has been terminated.</p>
+
+<p>In this task, you will learn how to use <em>termination protection</em>.</p>
+<ol start="58">
+<li><p>In left navigation pane, click <strong>Instances</strong>.</p></li>
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance State</strong> <i class="fas fa-caret-right"></i> <strong>Terminate</strong>.</p></li>
+</ol>
+<p>Note that there is a message that says: <em>These instances have Termination Protection and will not be terminated. Use the Change Termination Protection option from the Instances screen Actions menu to allow termination of these instances.</em></p>
+
+<p>Also, the <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Yes, Terminate</span> button is dimmed and cannot be clicked.</p>
+
+<p>This is a safeguard to prevent the accidental termination of an instance. If you really want to terminate the instance, you will need to disable the termination protection.</p>
+<ol start="60">
+<li><p>Click <span style="color:#1166bb;font-weight:bold;">Cancel</span>.</p></li>
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance Settings</strong> <i class="fas fa-caret-right"></i> <strong>Change Termination Protection</strong>.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Yes, Disable</span></p></li>
+</ol>
+<p>You can now terminate the instance.</p>
+<ol start="63">
+<li><p>In the <span style="background-color:#DEDEDE;font-weight:bold;font-size:90%;color:#444;border-radius:5px;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Actions <i class="fas fa-angle-down"></i></span> menu, select <strong>Instance State</strong> <i class="fas fa-caret-right"></i> <strong>Terminate</strong>.</p></li>
+<li><p>Click <span style="background-color:#257ACF;font-weight:bold;font-size:90%;color:white;border-radius:5px;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;white-space: nowrap;">Yes, Terminate</span></p></li>
+</ol>
+<p><span style="color:blue;"><i class="far fa-thumbs-up"></i></span> <strong>Congratulations!</strong> You have successfully tested termination protection and terminated your instance.</p>
+
+<h2 id="step9">End Lab</h2>
+
+<p>Follow these steps to close the console, end your lab, and evaluate the experience.</p>
+<ol start="65">
+<li><p>Return to the AWS Management Console.</p></li>
+<li><p>On the navigation bar, click <strong>awsstudent@&lt;AccountNumber&gt;</strong>, and then click <strong>Sign Out</strong>.</p></li>
+<li><p>Click <span style="background-color:#D93025;font-family:Google Sans;font-weight:bold;font-size:90%;color:white;border-color:#D93025;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">End Lab</span></p></li>
+<li><p>Click <span style="background-color:#DEDEDE;font-family:Google Sans;font-weight:bold;font-size:90%;color:#444;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;">OK</span></p></li>
+<li><p>(Optional):</p></li>
+</ol><ul>
+<li>Select the applicable number of stars <i class="far fa-star"></i>
+</li>
+<li>Type a comment</li>
+<li>
+<p>Click <strong>Submit</strong></p>
+<ul>
+<li>1 star = Very dissatisfied</li>
+<li>2 stars = Dissatisfied</li>
+<li>3 stars = Neutral</li>
+<li>4 stars = Satisfied</li>
+<li>5 stars = Very satisfied</li>
+</ul>
+</li>
+</ul>
+<p>You may close the dialog if you don't want to provide feedback.</p>
+
+<p>For feedback, suggestions, or corrections, please email us at <em><a href="mailto:aws-course-feedback@amazon.com" target="_blank">aws-course-feedback@amazon.com</a></em>.</p>
+
+
+
+<h2 id="step10">Additional Resources</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html" target="_blank">Launch Your Instance</a></li>
+<li><a href="https://aws.amazon.com/ec2/instance-types" target="_blank">Amazon EC2 Instance Types</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html" target="_blank">Amazon Machine Images (AMI)</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html" target="_blank">Amazon EC2 - User Data and Shell Scripts</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html" target="_blank">Amazon EC2 Root Device Volume</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html" target="_blank">Tagging Your Amazon EC2 Resources</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html" target="_blank">Security Groups</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank">Amazon EC2 Key Pairs</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html?icmpid=docs_ec2_console" target="_blank">Status Checks for Your Instances</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html" target="_blank">Getting Console Output and Rebooting Instances</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ec2-metricscollected.html" target="_blank">Amazon EC2 Metrics and Dimensions</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html" target="_blank">Resizing Your Instance</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html" target="_blank">Stop and Start Your Instance</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html" target="_blank">Amazon EC2 Service Limits</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html" target="_blank">Terminate Your Instance</a></li>
+<li><p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html" target="_blank">Termination Protection for an Instance</a></p></li>
+<li><p>For more information about AWS Training and Certification, see <a href="http://aws.amazon.com/training/" target="_blank"><em>http://aws.amazon.com/training/</em></a>.</p></li>
+<li><p>For more AWS Self-Paced Labs, see <a href="http://amazon.qwiklabs.com/" target="_blank"><em>http://amazon.qwiklabs.com</em></a>.</p></li>
+</ul>
+<p>For feedback, suggestions, or corrections, please email us at <a href="mailto:aws-course-feedback+spl@amazon.com" target="_blank"><em>aws-course-feedback@amazon.com</em></a>.</p>
+
+</div>
+<div class="js-lab-content-outline lab-content__outline is-stuck">
+<a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step1" class="">Overview</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step2" class="">Start Lab</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step3" class="">Task 1: Launch Your Amazon EC2 Instance</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step4" class="">Task 2: Monitor Your Instance</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step5" class="">Task 3: Update Your Security Group and Access the Web Server</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step6" class="">Task 4: Resize Your Instance: Instance Type and EBS Volume</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step7" class="">Task 5: Explore EC2 Limits</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step8" class="is-active">Task 6: Test Termination Protection</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step9">End Lab</a><a href="https://www.qwiklabs.com/focuses/11013?parent=catalog#step10">Additional Resources</a>
+</div>
+</div>
+
+</div>
+
+<div class="lab-content__markdown-wrapper">
+<div class="lab-content__markdown">
+<div class="lab-content__recommendation">
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class="upcoming-cards">
+<h2 class="headline-3">Continue questing</h2>
+<div class="content-card-grid">
+<div class="card-content-wrapper js-content-card" data-id="2633" data-level="Introductory" data-name="Introduction to Amazon EC2" data-type="Lab">
+<a class="card card--content elevation-0 content-lab" href="https://www.qwiklabs.com/focuses/11013?parent=catalog"><div class="card__image">
+<div class="card__image__inner" style="background-image: url(https://cdn.qwiklabs.com/assets/fractal1-90735da7b9906552121e230998c46ac7e2e5f943f2c909a6da76f50d7e815976.jpg)"></div>
+</div>
+<div class="card__body">
+<div class="overline card--content__type">
+Hands-On Lab
+</div>
+<h3 class="card--content__title">
+Introduction to Amazon EC2
+</h3>
+<p class="card--content__description body-1">
+This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance.
+</p>
+</div>
+<div class="card__footer">
+<div class="card__footer__left">
+<span>Introductory</span>
+</div>
+<div class="card__footer__right">
+<div class="rateit" data-rateit-readonly="true" data-rateit-value="4.5148"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 72.2368px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="lab-introduction js-lab-introduction is-hidden">
+<div class="lab-introduction__inner">
+<h1 class="headline-1">Welcome to Your First Lab!</h1>
+<ql-icon-button class="js-skip-button">close</ql-icon-button>
+<div class="lab-introduction__video">
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" id="lab-introduction" src="./Introduction to Amazon EC2 _ Qwiklabs_files/yF7EDXKTmoQ.html"></iframe>
+</div>
+<a class="js-skip-button button button--outline">Skip this video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class="modal fade" id="lab-details-modal">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<div class="modal-body">
+<p class="l-mbm">
+This lab provides you with a basic overview of launching, resizing, managing, and monitoring an Amazon EC2 instance.
+</p>
+<p>
+This lab is included in these quests:
+<a href="https://www.qwiklabs.com/quests/6">Compute &amp; Networking</a>, <a href="https://www.qwiklabs.com/quests/3">Websites &amp; Web Apps</a>, <a href="https://www.qwiklabs.com/quests/16">SysOps Administrator - Associate</a>, <a href="https://www.qwiklabs.com/quests/10">Solutions Architect - Associate</a>, <a href="https://www.qwiklabs.com/quests/15">Programming Windows on AWS</a>, <a href="https://www.qwiklabs.com/quests/13">Databases on AWS for Windows</a>.
+If you complete this lab you'll receive credit for it when you enroll in one of these quests.
+</p>
+<p class="small-label l-mbs">
+<strong>
+Duration:
+</strong>
+2m setup
+·
+60m access
+·
+60m completion
+</p>
+<p class="small-label l-mbs">
+<strong>AWS Region:</strong>
+[us-west-2] <strong>US West (Oregon)</strong>
+</p>
+<p class="small-label l-mbs">
+<span><strong>Levels: </strong>introductory</span>
+</p>
+<p class="small-label">
+<strong>
+Permalink:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/2633">https://www.qwiklabs.com/catalog_lab/2633</a>
+</p>
+</div>
+<div class="modal-actions">
+<a class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect" data-dismiss="modal" data-upgraded=",MaterialButton,MaterialRipple">
+Got It
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+</div>
+
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource(1).html"></iframe>
+</div>
+<div class="modal fade" id="lab-review-modal">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<form class="simple_form js-lab-review-form" id="new_lab_review" action="https://www.qwiklabs.com/lab_reviews" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓"><div class="modal-body">
+<p class="label">
+How satisfied are you with this lab?*
+</p>
+<div class="rateit js-rateit" data-rateit-max="5" data-rateit-min="0" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="0"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 0px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+<div class="l-mtm">
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="1416333" name="lab_review[user_id]" id="lab_review_user_id"></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id"></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2633" name="lab_review[lab_id]" id="lab_review_lab_id"></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id"></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" name="lab_review[rating]" id="lab_review_rating"></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comment</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment"></textarea></div></div>
+</div>
+</div>
+<div class="modal-actions">
+<a class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect" data-dismiss="modal" data-upgraded=",MaterialButton,MaterialRipple">
+Cancel
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<input type="submit" name="commit" value="Submit" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Submit" data-upgraded=",MaterialButton,MaterialRipple"><span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></input>
+</div>
+</form>
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource(2).html"></iframe>
+</div>
+<div class="modal fade" id="lab-access-modal" style="display: none;">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<a class="lab-access-modal-close" data-analytics-action="dismissed_lab_payment_modal" data-dismiss="modal">
+<i class="material-icons">close</i>
+</a>
+<form class="js-lab-access-form" action="https://www.qwiklabs.com/lab_onetime_coupons/activate?parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓">
+<div class="modal-body">
+<div class="lab-access-modal">
+<input type="hidden" name="id" id="id" value="11013">
+<input type="hidden" name="user_id" id="user_id" value="1416333">
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input">
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="1" class="js-launch-with-subscription-input">
+<div class="lab-access-modal__method">
+<p>
+This lab costs
+1 Credit.
+</p>
+<p>
+You have a valid subscription package. Would you like to charge this lab to your subscription?
+
+</p>
+<a class="button js-launch-with-subscription-button js-lab-access-modal-button" data-analytics-action="clicked_launch_with_subscription_button">
+Use Subscription
+</a>
+</div>
+<div class="lab-access-modal__method">
+<p>
+You have 33 access codes available.
+Enter Lab Access Code:
+</p>
+<div class="lab-access-modal__code js-access-code">
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234">
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234">
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234">
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234">
+</div>
+<a class="button js-launch-with-access-code-button js-lab-access-modal-button" data-analytics-action="clicked_launch_with_access_code_button">
+Launch with Access Code
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource(3).html"></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"All done? If you end this lab, you will lose all your work. You may not be able to restart the lab if there is a quota limit. Are you sure you want to end this lab?\n","in_progress":"*In Progress*","ending":"*Ending*","starting":"*Starting, please wait*","end_concurrent_labs":"Sorry, you can only run one lab at a time. To start this lab, please confirm that you want all of your existing labs to end.\n","copied":"Copied","no_resource":"Error retrieving resource.","no_support":"No Support","mac_press":"Press ⌘-C to copy","thanks_review":"Thanks for reviewing this lab.","windows_press":"Press Ctrl-C to copy","days":"days"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+
+
+<iframe data-product="web_widget" title="No content" tabindex="-1" aria-hidden="true" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource(4).html" style="width: 0px; height: 0px; border: 0px; position: absolute; top: -9999px;"></iframe><div><iframe title="Opens a widget where you can chat to one of our agents" id="launcher" tabindex="0" class="zEWidget-launcher zEWidget-launcher--active" style="border: none; background: transparent; z-index: 999998; transform: translateZ(0px); position: fixed; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1); transition-property: opacity, top, bottom; opacity: 1; height: 50px; max-height: 551px; min-height: 50px; margin: 10px 20px; right: 0px; bottom: 0px; width: 118px;width: 118px;" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource(5).html"></iframe></div><div><iframe title="Find more information here" id="webWidget" tabindex="-1" class="zEWidget-webWidget " style="border: none; background: transparent; z-index: 999999; transform: translateZ(0px); position: fixed; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1); transition-property: opacity, top, bottom; opacity: 0; width: 357px; height: 100%; max-height: 565px; min-height: 150px; margin-left: 8px; margin-right: 8px; top: -9999px; visibility: hidden;" src="./Introduction to Amazon EC2 _ Qwiklabs_files/saved_resource(6).html"></iframe></div></body></html>

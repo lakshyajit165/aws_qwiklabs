@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://www.qwiklabs.com/focuses/10408?parent=catalog -->
+<html lang="en" class="mdl-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+<meta content="[]" name="active-experiments">
+<meta content="{&quot;userId&quot;:1416333}" name="help-api-product-data">
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="gMPGCSB3YMq1SRG7/4azS4TCko+66jdKilNpdeA6P2FycGIsoM9rPRDjTHyNXMDCzXhCZMKb37zGADYHW4HvHQ==">
+<title>Introduction to AWS Identity and Access Management (IAM) | Qwiklabs</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" name="viewport">
+<meta content="This lab shows you how to manage access and permissions to your AWS services using AWS Identity and Access Management (IAM). Practice the steps to add users to groups, manage passwords, log in with IAM-created users, and see the effects of IAM policies on access to specific services." name="description">
+<meta content="Qwiklabs" name="author">
+<meta content="1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0" name="google-site-verification">
+<meta content="Introduction to AWS Identity and Access Management (IAM) | Qwiklabs" property="og:title">
+<meta content="website" property="og:type">
+<meta content="/favicon-144.png" property="og:image">
+<meta content="Qwiklabs" property="og:site_name">
+<meta content="This lab shows you how to manage access and permissions to your AWS services using AWS Identity and Access Management (IAM). Practice the steps to add users to groups, manage passwords, log in with IAM-created users, and see the effects of IAM policies on access to specific services." property="og:description">
+<meta content="/qwiklabs_logo_900x887.png" property="og:logo" size="900x887">
+<meta content="/qwiklabs_logo_994x187.png" property="og:logo" size="994x187">
+<meta content="#3681E4" property="msapplication-TileColor">
+<meta content="/favicon-144.png" property="msapplication-TileImage">
+<link href="https://www.qwiklabs.com/favicon-32.png" rel="shortcut icon">
+<link color="#3681E4" href="https://www.qwiklabs.com/favicon-svg.svg" rel="mask-icon">
+<link href="https://www.qwiklabs.com/favicon-180.png" rel="apple-touch-icon-precomposed">
+<link rel="stylesheet" media="screen" href="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/css">
+
+
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script type="text/javascript" async="" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/js"></script><script type="text/javascript" async="" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/analytics.js"></script><script type="text/javascript" async="" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/analytics.min.js"></script><script type="text/javascript" id="www-widgetapi-script" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/www-widgetapi.js" async=""></script><script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"LAKSHYAJIT","lastname":"LAXMIKANT","fullname":"LAKSHYAJIT LAXMIKANT","company":"Coursera","email":"lakshyajit165@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"789f4b2951493e14c965318ea3146db7","qlCreatedAt":"2019-02-08 14:17:59 UTC","optIn":true};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id="ze-snippet" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/snippet.js"></script>
+
+
+
+<link rel="stylesheet" media="all" href="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/application-152a9c1b783ef6577930175aa3aa7549e09c5d70af2f3bc2be1f1a6e692348de.css">
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/webcomponents-loader.js"></script><script src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/webcomponents-hi.js"></script>
+<script src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/hallofmirrors-aea5769f37d249bb9cf243cca4737e39037048878dbe09596795482ff1769c4b.js"></script><script async="" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/lazy.min.js"></script>
+<script src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/iframe_api"></script>
+<script src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/application-b8f24b563e7f6b4a399091631f253a394e419e33d6c909ef27e223b366f52750.js"></script>
+</head>
+<body class="focuses focuses-show lab-show l-full no-nav" cz-shortcut-listen="true" style="">
+<div class="header-container light-theme">
+<div class="header">
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle" data-upgraded=",MaterialButton,MaterialRipple">
+<i class="material-icons">menu</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<div class="header__title">
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/3" data-upgraded=",MaterialButton,MaterialRipple"><ql-icon>arrow_back</ql-icon><span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+
+<h1 class="headline-5">
+Introduction to AWS Identity and Access Management (IAM)
+</h1>
+</div>
+<div class="header__actions">
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button" data-upgraded=",MaterialButton,MaterialRipple">
+<i class="material-icons">search</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;" data-upgraded=",MaterialButton,MaterialRipple" tabindex="0"><i class="material-icons">description</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a><div class="mdl-tooltip js-tooltip" data-mdl-for="toggle-lab-control-panel" data-upgraded=",MaterialTooltip">
+Toggle Lab Panel
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-10408-favorite-button" data-type="CatalogItem" data-id="10408" data-name="Introduction to AWS Identity and Access Management (IAM)" href="https://www.qwiklabs.com/favorite.json?item_id=10408&amp;item_type=CatalogItem" data-upgraded=",MaterialButton,MaterialRipple" tabindex="0"><i class="material-icons">favorite_border</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a><div class="mdl-tooltip js-tooltip" for="CatalogItem-10408-favorite-button" data-upgraded=",MaterialTooltip">
+Add to favorites
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:1416333}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class="header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button" data-upgraded=",MaterialButton,MaterialRipple">
+<img class="avatar " alt="avatar image" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/31c99f8d33487203415d57025d4a6b43.png">
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<div class="header-my-account-menu js-my-account-menu">
+<div class="card elevation-2 no-padding">
+<div class="my-account-menu__top">
+<img class="avatar " alt="avatar image" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/31c99f8d33487203415d57025d4a6b43.png">
+<div class="my-account-menu__info">
+<h4 class="subtitle-headline-1">
+LAKSHYAJIT LAXMIKANT
+</h4>
+<p class="body-2 text--gray">
+<span>lakshyajit165@gmail.com</span>
+</p>
+<a class="button" href="https://www.qwiklabs.com/my_account/profile">My Account</a>
+</div>
+</div>
+<div class="my-account-menu__bottom">
+<a class="text--green subtitle-headline-2" href="https://www.qwiklabs.com/my_account/credits">Monthly Subscription
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="https://www.qwiklabs.com/users/sign_out">Sign Out</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="header__search-bar js-header-search-bar">
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="https://www.qwiklabs.com/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="gMPGCSB3YMq1SRG7/4azS4TCko+66jdKilNpdeA6P2FycGIsoM9rPRDjTHyNXMDCzXhCZMKb37zGADYHW4HvHQ==">
+<input type="text" name="keywords" id="keywords" placeholder="Search" maxlength="255" aria-label="catalog search bar">
+</form>
+
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button" data-upgraded=",MaterialButton,MaterialRipple">
+<i class="material-icons">close</i>
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+</div>
+</div>
+
+<nav class="nav-bar">
+<a class="nav-bar__item js-navigation-button" href="https://www.qwiklabs.com/"><ql-icon class="nav-bar__item__icon">
+home
+</ql-icon>
+<span class="nav-bar__item__label">
+Home
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="https://www.qwiklabs.com/catalog"><ql-icon class="nav-bar__item__icon">
+school
+</ql-icon>
+<span class="nav-bar__item__label">
+Catalog
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="https://www.qwiklabs.com/my_learning"><ql-icon class="nav-bar__item__icon">
+event_note
+</ql-icon>
+<span class="nav-bar__item__label">
+My Learning
+</span>
+</a>
+</nav>
+
+<nav class="nav-panel js-nav-panel">
+<div class="nav-panel__logo">
+<div class="logo logo--blue"></div>
+</div>
+<a title="Home" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/"><ql-icon class="nav-panel__item__icon">
+home
+</ql-icon>
+<div class="nav-panel__item__label">
+Home
+</div>
+</a>
+<a title="Catalog" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="https://www.qwiklabs.com/catalog"><ql-icon class="nav-panel__item__icon">
+school
+</ql-icon>
+<div class="nav-panel__item__label">
+Catalog
+</div>
+</a>
+<a title="My Learning" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_learning"><ql-icon class="nav-panel__item__icon">
+event_note
+</ql-icon>
+<div class="nav-panel__item__label">
+My Learning
+</div>
+</a>
+<div class="nav-panel__spacer"></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_account/profile"><ql-icon class="nav-panel__item__icon">
+account_circle
+</ql-icon>
+<div class="nav-panel__item__label">
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_account/credits"><ql-icon class="nav-panel__item__icon">
+money
+</ql-icon>
+<div class="nav-panel__item__label">
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://www.qwiklabs.com/my_account/security"><ql-icon class="nav-panel__item__icon">
+security
+</ql-icon>
+<div class="nav-panel__item__label">
+Security
+</div>
+</a>
+<div class="nav-panel__spacer"></div>
+<a class="nav-panel__item" tabindex="-1" href="https://www.qwiklabs.com/focuses/10408?parent=catalog#"><ql-help>
+<div class="nav-panel__help-item">
+<ql-icon class="nav-panel__item__icon">help</ql-icon>
+<div class="nav-panel__item__label">Help</div>
+</div>
+</ql-help>
+</a><div class="nav-panel__small-links">
+<a tabindex="-1" href="https://www.qwiklabs.com/privacy_policy">Privacy</a>
+<a tabindex="-1" href="https://www.qwiklabs.com/terms_of_service">Terms</a>
+</div>
+</nav>
+<div class="nav-panel__overlay js-nav-toggle"></div>
+
+<main class="js-main">
+<span class="hidden" id="flash-sibling-before"></span>
+
+<div class="l-main-wrapper" id="main-wrapper">
+
+
+
+
+
+
+
+<div class="js-lab-state" data-analytics-payload="{&quot;label&quot;:&quot;Introduction to AWS Identity and Access Management (IAM)&quot;,&quot;lab_name&quot;:&quot;Introduction to AWS Identity and Access Management (IAM)&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}" data-focus-id="10408" data-lab-billing-limit="0.0" data-lab-duration="2700" data-parent="catalog"></div>
+<ql-lab-control-panel class="js-lab-control-panel l-lab-control-panel" connectiondetails="[]" connectionfiles="[]" labcontrolbutton="{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}" labtimer="{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:2700}" studentresources="[]"></ql-lab-control-panel>
+<div class="l-lab-main-body">
+<div class="js-lab-content lab-content">
+<div class="alert alert--fake js-alert alert-success" style="display: none;">
+<p class="alert__message js-alert-message">Thanks for reviewing this lab.</p>
+<a class="alert__close js-alert-close">
+<i class="fa fa-times"></i>
+</a>
+<iframe class="l-ie-iframe-fix" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/saved_resource.html"></iframe>
+</div>
+<div class="lab-content__markdown-wrapper">
+<div class="lab-preamble">
+<h1 class="lab-preamble__title">
+Introduction to AWS Identity and Access Management (IAM)
+</h1>
+<div class="lab-preamble__details subtitle-headline-1">
+<span>45 minutes</span>
+<span>Free</span>
+<div class="lab__rating">
+<a href="https://www.qwiklabs.com/focuses/10408/reviews?parent=catalog"><div class="rateit" data-rateit-readonly="true" data-rateit-value="4.5409"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 72.6544px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+
+</a><a data-target="#lab-review-modal" data-toggle="modal">
+Rate Lab
+</a>
+</div>
+</div>
+</div>
+
+<div class="lab-content__inner-wrapper">
+<div class="js-markdown-instructions lab-content__markdown markdown-lab-instructions no-select" id="markdown-lab-instructions">
+<p><img src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/aws-logo.png" alt=""></p>
+
+
+
+<p><strong>SPL-66 - version 3.1.4</strong></p>
+
+<p>© 2020 Amazon Web Services, Inc. and its affiliates. All rights reserved. This work may not be reproduced or redistributed, in whole or in part, without prior written permission from Amazon Web Services, Inc. Commercial copying, lending, or selling is prohibited.</p>
+
+<p>Errors or corrections? Email us at <a href="mailto:aws-course-feedback@amazon.com" target="_blank">aws-course-feedback@amazon.com</a>.</p>
+
+<p>Other questions? Contact us at <a href="https://aws.amazon.com/contact-us/aws-training/" target="_blank">https://aws.amazon.com/contact-us/aws-training/</a></p>
+
+<h2 id="step1">Lab Overview</h2>
+
+<p><strong>AWS Identity and Access Management (IAM)</strong> is a web service that enables Amazon Web Services (AWS) customers to manage users and user permissions in AWS. With IAM, you can centrally manage <strong>users</strong>, <strong>security credentials</strong> such as access keys, and <strong>permissions</strong> that control which AWS resources users can access.</p>
+
+<h2 id="step2">Topics covered</h2>
+
+<p>This lab will demonstrate:</p>
+<ul>
+<li>Exploring pre-created <strong>IAM Users and Groups</strong>
+</li>
+<li>Inspecting <strong>IAM policies</strong> as applied to the pre-created groups</li>
+<li>Following a <strong>real-world scenario</strong>, adding users to groups with specific capabilities enabled</li>
+<li>Locating and using the <strong>IAM sign-in URL</strong>
+</li>
+<li>
+<strong>Experimenting</strong> with the effects of policies on service access</li>
+</ul>
+<p><strong>Other AWS Services</strong></p>
+
+<p>During this lab, you may receive error messages when performing actions beyond the steps in this lab guide. These messages will not impact your ability to complete the lab.</p>
+
+
+
+<p><strong>AWS Identity and Access Management</strong></p>
+
+<p>AWS Identity and Access Management (IAM) can be used to:</p>
+<ul>
+<li><p><strong>Manage IAM Users and their access:</strong> You can create Users and assign them individual security credentials (access keys, passwords, and multi-factor authentication devices). You can manage permissions to control which operations a User can perform.</p></li>
+<li><p><strong>Manage IAM Roles and their permissions:</strong> An IAM Role is similar to a User, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. However, instead of being uniquely associated with one person, a Role is intended to be <em>assumable</em> by anyone who needs it.</p></li>
+<li><p><strong>Manage federated users and their permissions:</strong> You can enable <em>identity federation</em> to allow existing users in your enterprise to access the AWS Management Console, to call AWS APIs and to access resources, without the need to create an IAM User for each identity.</p></li>
+</ul>
+<h2 id="step3">Start Lab</h2>
+<ol start="1">
+<li>At the top of your screen, launch your lab by clicking <span style="background-color:#34A853;font-family:Google Sans;font-weight:bold;font-size:90%;color:white;border-color:#34A853;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Start Lab</span>
+</li>
+</ol>
+<p>This will start the process of provisioning your lab resources. An estimated amount of time to provision your lab resources will be displayed. You must wait for your resources to be provisioned before continuing.</p>
+
+<p><i class="fas fa-info-circle"></i> If you are prompted for a token, use the one distributed to you (or credits you have purchased). </p>
+<ol start="2">
+<li>Open your lab by clicking <span style="background-color:white;font-family:Google Sans;font-weight:bold;font-size:90%;color:#1a73e8;border-color:#dadce0;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Open Console</span>
+</li>
+</ol>
+<p>This will automatically log you into the AWS Management Console. </p>
+
+<p><i class="fas fa-exclamation-triangle"></i> <strong>Please do not change the Region unless instructed</strong>.</p>
+
+
+
+<h3>Common login errors</h3>
+
+<p><strong>Error : Federated login credentials</strong></p>
+
+<p><img src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/federatedloginerror.png" alt=""></p>
+
+<p>If you see this message:</p>
+<ul>
+<li>Close the browser tab to return to your initial lab window</li>
+<li>Wait a few seconds</li>
+<li>Click <span style="background-color:white;font-family:Google Sans;font-weight:bold;font-size:90%;color:#1a73e8;border-color:#dadce0;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Open Console</span> again</li>
+</ul>
+<p>You should now be able to access the AWS Management Console.</p>
+
+
+
+<p><strong>Error: You must first log out</strong></p>
+
+<p><img src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/logouterror.png" alt=""></p>
+
+<p>If you see the message, <strong>You must first log out before logging into a different AWS account:</strong> </p>
+<ul>
+<li>Click <strong>click here</strong>
+</li>
+<li>Close your browser tab to return to your initial Qwiklabs window</li>
+<li>Click <span style="background-color:white;font-family:Google Sans;font-weight:bold;font-size:90%;color:#1a73e8;border-color:#dadce0;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">Open Console</span> again</li>
+</ul>
+
+
+<h2 id="step4">Task 1: Explore the Users and Groups</h2>
+
+<p>In this task, you will explore the Users and Groups that have already been created for you in IAM.</p>
+<ol start="3">
+<li><p>In the <strong>AWS Management Console</strong>, on the <strong>Services</strong> menu, click <strong>IAM</strong>.</p></li>
+<li><p>In the navigation pane on the left, click <strong>Users</strong>.</p></li>
+</ol>
+<p>The following IAM Users have been created for you:</p>
+<ul>
+<li>user-1</li>
+<li>user-2</li>
+<li>user-3</li>
+</ul><ol start="5">
+<li>Click <strong>user-1</strong>.</li>
+</ol>
+<p>This will bring to a summary page for user-1. The <strong>Permissions</strong> tab will be displayed.</p>
+<ol start="6">
+<li><p>Notice that user-1 does not have any permissions.</p></li>
+<li><p>Click the <strong>Groups</strong> tab.</p></li>
+</ol>
+<p>user-1 also is not a member of any groups.</p>
+<ol start="8">
+<li>Click the <strong>Security credentials</strong> tab.</li>
+</ol>
+<p>user-1 is assigned a <strong>Console password</strong></p>
+<ol start="9">
+<li>In the navigation pane on the left, click <strong>Groups</strong>.</li>
+</ol>
+<p>The following groups have already been created for you:</p>
+<ul>
+<li>EC2-Admin</li>
+<li>EC2-Support</li>
+<li>S3-Support</li>
+</ul><ol start="10">
+<li>Click the <strong>EC2-Support</strong> group.</li>
+</ol>
+<p>This will bring you to the summary page for the <strong>EC2-Support</strong> group.</p>
+<ol start="11">
+<li>Click the <strong>Permissions</strong> tab.</li>
+</ol>
+<p>This group has a Managed Policy associated with it, called <strong>AmazonEC2ReadOnlyAccess</strong>. Managed Policies are pre-built policies (built either by AWS or by your administrators) that can be attached to IAM Users and Groups. When the policy is updated, the changes to the policy are immediately apply against all Users and Groups that are attached to the policy.</p>
+<ol start="12">
+<li>Under <strong>Actions</strong>, click the <strong>Show Policy</strong> link.</li>
+</ol>
+<p>A policy defines what actions are allowed or denied for specific AWS resources. This policy is granting permission to List and Describe information about EC2, Elastic Load Balancing, CloudWatch and Auto Scaling. This ability to view resources, but not modify them, is ideal for assigning to a Support role.</p>
+
+<p>The basic structure of the statements in an IAM Policy is:</p>
+<ul>
+<li> <strong>Effect</strong> says whether to <em>Allow</em> or <em>Deny</em> the permissions.</li>
+<li> <strong>Action</strong> specifies the API calls that can be made against an AWS Service (eg <em>cloudwatch:ListMetrics</em>).</li>
+<li> <strong>Resource</strong> defines the scope of entities covered by the policy rule (eg a specific Amazon S3 bucket or Amazon EC2 instance, or * which means <em>any resource</em>).</li>
+</ul><ol start="13">
+<li><p>Close the <strong>Show Policy</strong> window.</p></li>
+<li><p>In the navigation pane on the left, click <strong>Groups</strong>.</p></li>
+<li><p>Click the <strong>S3-Support</strong> group.</p></li>
+</ol>
+<p>The S3-Support group has the <strong>AmazonS3ReadOnlyAccess</strong> policy attached.</p>
+<ol start="16">
+<li>Below the <strong>Actions</strong> menu, click the <strong>Show Policy</strong> link.</li>
+</ol>
+<p>This policy has permissions to Get and List resources in Amazon S3.</p>
+<ol start="17">
+<li><p>Close the <strong>Show Policy</strong> window.</p></li>
+<li><p>In the navigation pane on the left, click <strong>Groups</strong>.</p></li>
+<li><p>Click the <strong>EC2-Admin</strong> group.</p></li>
+</ol>
+<p>This Group is slightly different from the other two. Instead of a <em>Managed Policy</em>, it has an <strong>Inline Policy</strong>, which is a policy assigned to just one User or Group. Inline Policies are typically used to apply permissions for one-off situations.</p>
+<ol start="20">
+<li>Under <strong>Actions</strong>, click <strong>Edit Policy</strong> to view the policy.</li>
+</ol>
+<p>This policy grants permission to view (Describe) information about Amazon EC2 and also the ability to Start and Stop instances.</p>
+<ol start="21">
+<li>At the bottom of the screen, click <strong>Cancel</strong> to close the policy.</li>
+</ol>
+<h2 id="step5">Business Scenario</h2>
+
+<p>For the remainder of this lab, you will work with these Users and Groups to enable permissions supporting the following business scenario:</p>
+
+<p>Your company is growing its use of Amazon Web Services, and is using many Amazon EC2 instances and a great deal of Amazon S3 storage. You wish to give access to new staff depending upon their job function:</p>
+
+<table>
+<tbody><tr>
+<th>User</th>
+<th>In Group</th>
+<th>Permissions</th>
+</tr>
+
+<tr>
+<td>user-1</td>
+<td>S3-Support</td>
+<td>Read-Only access to Amazon S3</td>
+</tr>
+<tr>
+<td>user-2</td>
+<td>EC2-Support</td>
+<td>Read-Only access to Amazon EC2</td>
+</tr>
+<tr>
+<td>user-3</td>
+<td>EC2-Admin</td>
+<td>View, Start and Stop Amazon EC2 instances</td>
+</tr>
+</tbody></table>
+
+
+
+<h2 id="step6">Task 2: Add Users to Groups</h2>
+
+<p>You have recently hired <strong>user-1</strong> into a role where they will provide support for Amazon S3. You will add them to the <strong>S3-Support</strong> group so that they inherit the necessary permissions via the attached <em>AmazonS3ReadOnlyAccess</em> policy.</p>
+
+<p><i class="fas fa-comment"></i> You can ignore any "not authorized" errors that appear during this task. They are caused by your lab account having limited permissions and will not impact your ability to complete the lab.</p>
+
+<p><strong>Add user-1 to the S3-Support Group</strong></p>
+<ol start="22">
+<li><p>In the left navigation pane, click <strong>Groups</strong>.</p></li>
+<li><p>Click the <strong>S3-Support</strong> group.</p></li>
+<li><p>Click the <strong>Users</strong> tab.</p></li>
+<li><p>In the <strong>Users</strong> tab, click <strong>Add Users to Group</strong>.</p></li>
+<li><p>In the <strong>Add Users to Group</strong> window, configure the following:</p></li>
+</ol><ul>
+<li>Select <i class="far fa-check-square"></i> <strong>user-1</strong>.</li>
+<li>At the bottom of the screen, click <strong>Add Users</strong>.</li>
+</ul>
+<p>In the <strong>Users</strong> tab you will see that user-1 has been added to the group.</p>
+
+<p><strong>Add user-2 to the EC2-Support Group</strong></p>
+
+<p>You have hired <strong>user-2</strong> into a role where they will provide support for Amazon EC2.</p>
+<ol start="27">
+<li>Using similar steps to the ones above, add <strong>user-2</strong> to the <strong>EC2-Support</strong> group.</li>
+</ol>
+<p>user-2 should now be part of the <strong>EC2-Support</strong> group.</p>
+
+<p><strong>Add user-3 to the EC2-Admin Group</strong></p>
+
+<p>You have hired <strong>user-3</strong> as your Amazon EC2 administrator, who manage your EC2 instances.</p>
+<ol start="28">
+<li>Using similar steps to the ones above, add <strong>user-3</strong> to the <strong>EC2-Admin</strong> group.</li>
+</ol>
+<p>user-3 should now be part of the <strong>EC2-Admin</strong> group.</p>
+<ol start="29">
+<li>In the navigation pane on the left, click <strong>Groups</strong>.</li>
+</ol>
+<p>Each Group should have a <strong>1</strong> in the Users column for the number of Users in each Group.</p>
+
+<p>If you do not have a <strong>1</strong> beside each group, revisit the above instructions above to ensure that each user is assigned to a Group, as shown in the table in the Business Scenario section.</p>
+
+
+
+<h2 id="step7">Task 3: Sign-In and Test Users</h2>
+
+<p>In this task, you will test the permissions of each IAM User.</p>
+<ol start="30">
+<li>In the navigation pane on the left, click <strong>Dashboard</strong>.</li>
+</ol>
+<p>An <strong>IAM users sign-in link</strong> is displayed It will look similar to: <em>https://123456789012.signin.aws.amazon.com/console</em></p>
+
+<p>This link can be used to sign-in to the AWS Account you are currently using.</p>
+<ol start="31">
+<li><p>Copy the <strong>IAM users sign-in link</strong> to a text editor.</p></li>
+<li><p>Open a private window.</p></li>
+</ol>
+<p><strong>Mozilla Firefox</strong></p>
+<ul>
+<li>Click the menu bars <i class="fas fa-bars"></i> at the top-right of the screen</li>
+<li>Select <strong>New Private Window</strong>
+</li>
+</ul>
+<p><strong>Google Chrome</strong></p>
+<ul>
+<li>Click the ellipsis <i class="fas fa-ellipsis-v"></i> at the top-right of the screen</li>
+<li>Click <strong>New incognito window</strong>
+</li>
+</ul>
+<p><strong>Microsoft Edge</strong></p>
+<ul>
+<li>Click the ellipsis <i class="fas fa-ellipsis-h"></i> at the top-right of the screen</li>
+<li>Click <strong>New InPrivate window</strong>
+</li>
+</ul>
+<p><strong>Microsoft Internet Explorer</strong></p>
+<ul>
+<li>Click the <strong>Tools</strong> menu option</li>
+<li>Click <strong>InPrivate Browsing</strong>
+</li>
+</ul><ol start="33">
+<li>Paste the <strong>IAM users sign-in</strong> link into your private window and press <strong>Enter</strong>.</li>
+</ol>
+<p>You will now sign-in as <strong>user-1</strong>, who has been hired as your Amazon S3 storage support staff.</p>
+<ol start="34">
+<li>Sign-in with:</li>
+</ol><ul>
+<li>
+<strong>IAM user name:</strong> <input readonly="" class="copyable-inline-input" size="6" type="text" value="user-1">
+</li>
+<li>
+<strong>Password:</strong> Paste the value of <em>AdministratorPassword</em> located to the left of these instructions.</li>
+</ul><ol start="35">
+<li><p>In the <strong>Services</strong> menu, click <strong>S3</strong>.</p></li>
+<li><p>Click the name of one of your buckets and browse the contents.</p></li>
+</ol>
+<p>Since your user is part of the <strong>S3-Support</strong> Group in IAM, they have permission to view a list of Amazon S3 buckets and their contents.</p>
+
+<p>Now, test whether they have access to Amazon EC2.</p>
+<ol start="37">
+<li><p>In the <strong>Services</strong> menu, click <strong>EC2</strong>.</p></li>
+<li><p>Navigate to the region that your lab was launched in by:</p></li>
+</ol><ul>
+<li>Clicking the drop-down <i class="fas fa-angle-down"></i> arrow at the top of the screen, to the left of <strong>Support</strong>
+</li>
+<li>Selecting the region value that matches the value of <strong>Region</strong> to the left of these instructions</li>
+</ul><ol start="39">
+<li>In the left navigation pane, click <strong>Instances</strong>.</li>
+</ol>
+<p>You cannot see any instances! Instead, it says <em>An error occurred fetching instance data: You are not authorized to perform this operation.</em>. This is because your user has not been assigned any permissions to use Amazon EC2.</p>
+
+<p>You will now sign-in as <strong>user-2</strong>, who has been hired as your Amazon EC2 support person.</p>
+<ol start="40">
+<li>Sign user-1 out of the <strong>AWS Management Console</strong> by configuring the following:</li>
+</ol><ul>
+<li>At the top of the screen, click <strong>user-1</strong>
+</li>
+<li>Click <strong>Sign Out</strong>
+</li>
+</ul><ol start="41">
+<li>Paste the <strong>IAM users sign-in</strong> link into your private window and press <strong>Enter</strong>.</li>
+</ol>
+<p>This links should be in your text editor.</p>
+<ol start="42">
+<li>Sign-in with:</li>
+</ol><ul>
+<li>
+<strong>IAM user name:</strong> <input readonly="" class="copyable-inline-input" size="6" type="text" value="user-2">
+</li>
+<li>
+<strong>Password:</strong> Paste the value of <em>AdministratorPassword</em> located to the left of these instructions.</li>
+</ul><ol start="43">
+<li><p>In the <strong>Services</strong> menu, click <strong>EC2</strong>.</p></li>
+<li><p>Navigate to the region that your lab was launched in by:</p></li>
+</ol><ul>
+<li>Clicking the drop-down <i class="fas fa-angle-down"></i> arrow at the top of the screen, to the left of <strong>Support</strong>
+</li>
+<li>Selecting the region value that matches the value of <strong>Region</strong> to the left of these instructions</li>
+</ul><ol start="45">
+<li>In the navigation pane on the left, click <strong>Instances</strong>.</li>
+</ol>
+<p>You are now able to see an Amazon EC2 instance because you have Read Only permissions. However, you will not be able to make any changes to Amazon EC2 resources.</p>
+
+<p>Your EC2 instance should be selected <i class="fas fa-square"></i>  If it is not selected, select <i class="fas fa-square"></i> it.</p>
+<ol start="46">
+<li><p>In the <strong>Actions</strong> menu, click <strong>Instance State</strong> &gt; <strong>Stop</strong>.</p></li>
+<li><p>In the <strong>Stop Instances</strong> window, click <strong>Yes, Stop</strong>.</p></li>
+</ol>
+<p>You will receive an error stating <em>You are not authorized to perform this operation</em>. This demonstrates that the policy only allows you to information, without making changes.</p>
+<ol start="48">
+<li>At the <strong>Stop Instances</strong> window, click <strong>Cancel</strong>.</li>
+</ol>
+<p>Next, check if user-2 can access Amazon S3.</p>
+<ol start="49">
+<li>In the <strong>Services</strong>, click <strong>S3</strong>.</li>
+</ol>
+<p>You will receive an <span style="color:red;"><i class="fas fa-exclamation-circle"></i></span> <strong>Error Access Denied</strong> because user-2 does not permission to use Amazon S3.</p>
+
+<p>You will now sign-in as <strong>user-3</strong>, who has been hired as your Amazon EC2 administrator.</p>
+<ol start="50">
+<li>Sign user-2 out of the <strong>AWS Management Console</strong> by configuring the following:</li>
+</ol><ul>
+<li>At the top of the screen, click <strong>user-2</strong>
+</li>
+<li>Click <strong>Sign Out</strong>
+</li>
+</ul><ol start="51">
+<li><p>Paste the <strong>IAM users sign-in</strong> link into your private window and press <strong>Enter</strong>.</p></li>
+<li><p>Paste the sign-in link into your web browser address bar again. If it is not in your clipboard, retrieve it from the text editor where you stored it earlier.</p></li>
+<li><p>Sign-in with:</p></li>
+</ol><ul>
+<li>
+<strong>IAM user name:</strong> <input readonly="" class="copyable-inline-input" size="6" type="text" value="user-3">
+</li>
+<li>
+<strong>Password:</strong> Paste the value of <em>AdministratorPassword</em> located to the left of these instructions.</li>
+</ul><ol start="54">
+<li><p>In the <strong>Services</strong> menu, click <strong>EC2</strong>.</p></li>
+<li><p>Navigate to the region that your lab was launched in by:</p></li>
+</ol><ul>
+<li>Clicking the drop-down <i class="fas fa-angle-down"></i> arrow at the top of the screen, to the left of <strong>Support</strong>
+</li>
+<li>Selecting the region value that matches the value of <strong>Region</strong> to the left of these instructions</li>
+</ul><ol start="56">
+<li>In the navigation pane on the left, click <strong>Instances</strong>.</li>
+</ol>
+<p>As an EC2 Administrator, you should now have permissions to Stop the Amazon EC2 instance.</p>
+
+<p>Your EC2 instance should be selected <i class="fas fa-square"></i>. If it is not, please select <i class="fas fa-square"></i> it.</p>
+<ol start="57">
+<li><p>In the <strong>Actions</strong> menu, click <strong>Instance State</strong> &gt; <strong>Stop</strong>.</p></li>
+<li><p>In the <strong>Stop Instances</strong> window, click <strong>Yes, Stop</strong>.</p></li>
+</ol>
+<p>The instance will enter the <em>stopping</em> state and will shutdown.</p>
+<ol start="59">
+<li>Close your private window.</li>
+</ol>
+<h2 id="step8">End Lab</h2>
+
+<p>Follow these steps to close the console, end your lab, and evaluate the experience.</p>
+<ol start="60">
+<li><p>Return to the AWS Management Console.</p></li>
+<li><p>On the navigation bar, click <strong>awsstudent@&lt;AccountNumber&gt;</strong>, and then click <strong>Sign Out</strong>.</p></li>
+<li><p>Click <span style="background-color:#D93025;font-family:Google Sans;font-weight:bold;font-size:90%;color:white;border-color:#D93025;border-radius:4px;border-width:2px;border-style:solid;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;">End Lab</span></p></li>
+<li><p>Click <span style="background-color:#DEDEDE;font-family:Google Sans;font-weight:bold;font-size:90%;color:#444;border-width:1px;border-style:solid;border-color:#444;padding-top:3px;padding-bottom:3px;padding-left:10px;padding-right:10px;">OK</span></p></li>
+<li><p>(Optional):</p></li>
+</ol><ul>
+<li>Select the applicable number of stars <i class="far fa-star"></i>
+</li>
+<li>Type a comment</li>
+<li>
+<p>Click <strong>Submit</strong></p>
+<ul>
+<li>1 star = Very dissatisfied</li>
+<li>2 stars = Dissatisfied</li>
+<li>3 stars = Neutral</li>
+<li>4 stars = Satisfied</li>
+<li>5 stars = Very satisfied</li>
+</ul>
+</li>
+</ul>
+<p>You may close the dialog if you don't want to provide feedback.</p>
+
+
+
+<h2 id="step9">Conclusion</h2>
+
+<p><i class="far fa-thumbs-up" style="color:blue;"></i> Congratulations! You now have successfully:</p>
+<ul>
+<li>Explored pre-created IAM users and groups</li>
+<li>Inspected IAM policies as applied to the pre-created groups</li>
+<li>Followed a real-world scenario, adding users to groups with specific capabilities enabled</li>
+<li>Located and used the IAM sign-in URL</li>
+<li><p>Experimented with the effects of policies on service access</p></li>
+<li><p>For more information about AWS Training and Certification, see <a href="http://aws.amazon.com/training/" target="_blank"><em>http://aws.amazon.com/training/</em></a>.</p></li>
+<li><p>For more AWS Self-Paced Labs, see <a href="http://amazon.qwiklabs.com/" target="_blank"><em>http://amazon.qwiklabs.com</em></a>.</p></li>
+</ul>
+<p>For feedback, suggestions, or corrections, please email us at <a href="mailto:aws-course-feedback+spl@amazon.com" target="_blank"><em>aws-course-feedback@amazon.com</em></a>.</p>
+
+<h2 id="step10">Additional Resources</h2>
+<ul>
+<li><a href="http://aws.amazon.com/training/" target="_blank">AWS Training and Certification</a></li>
+<li><a href="http://aws.amazon.com/iam/" target="_blank">For more information about AWS IAM</a></li>
+</ul>
+<p>For feedback, suggestions, or corrections, please email us at: <a href="mailto:aws-course-feedback@amazon.com" target="_blank">aws-course-feedback@amazon.com</a></p>
+
+</div>
+<div class="js-lab-content-outline lab-content__outline is-stuck">
+<a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step1" class="">Lab Overview</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step2" class="">Topics covered</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step3" class="">Start Lab</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step4" class="">Task 1: Explore the Users and Groups</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step5" class="">Business Scenario</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step6" class="">Task 2: Add Users to Groups</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step7" class="is-active">Task 3: Sign-In and Test Users</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step8" class="">End Lab</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step9">Conclusion</a><a href="https://www.qwiklabs.com/focuses/10408?parent=catalog#step10">Additional Resources</a>
+</div>
+</div>
+
+</div>
+
+<div class="lab-content__markdown-wrapper">
+<div class="lab-content__markdown">
+<div class="lab-content__recommendation">
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class="upcoming-cards">
+<h2 class="headline-3">Continue questing</h2>
+<div class="content-card-grid">
+<div class="card-content-wrapper js-content-card" data-id="2493" data-level="Introductory" data-name="Introduction to AWS Identity and Access Management (IAM)" data-type="Lab">
+<a class="card card--content elevation-0 content-lab" href="https://www.qwiklabs.com/focuses/10408?parent=catalog"><div class="card__image">
+<div class="card__image__inner" style="background-image: url(https://cdn.qwiklabs.com/assets/fractal1-90735da7b9906552121e230998c46ac7e2e5f943f2c909a6da76f50d7e815976.jpg)"></div>
+</div>
+<div class="card__body">
+<div class="overline card--content__type">
+Hands-On Lab
+</div>
+<h3 class="card--content__title">
+Introduction to AWS Identity and Access Management (IAM)
+</h3>
+<p class="card--content__description body-1">
+This lab shows you how to manage access and permissions to your AWS services using AWS Identity and Access Management (IAM). Practice the steps to add users to groups, manage passwords, log in with IAM-created users, and see the effects of IAM policies on access to specific services.
+</p>
+</div>
+<div class="card__footer">
+<div class="card__footer__left">
+<span>Introductory</span>
+</div>
+<div class="card__footer__right">
+<div class="rateit" data-rateit-readonly="true" data-rateit-value="4.5409"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 72.6544px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="lab-introduction js-lab-introduction is-hidden">
+<div class="lab-introduction__inner">
+<h1 class="headline-1">Welcome to Your First Lab!</h1>
+<ql-icon-button class="js-skip-button">close</ql-icon-button>
+<div class="lab-introduction__video">
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" id="lab-introduction" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/yF7EDXKTmoQ.html"></iframe>
+</div>
+<a class="js-skip-button button button--outline">Skip this video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class="modal fade" id="lab-details-modal">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<div class="modal-body">
+<p class="l-mbm">
+This lab shows you how to manage access and permissions to your AWS services using AWS Identity and Access Management (IAM). Practice the steps to add users to groups, manage passwords, log in with IAM-created users, and see the effects of IAM policies on access to specific services.
+</p>
+<p>
+This lab is included in these quests:
+<a href="https://www.qwiklabs.com/quests/22">Security on AWS</a>, <a href="https://www.qwiklabs.com/quests/20">Developer - Associate</a>, <a href="https://www.qwiklabs.com/quests/3">Websites &amp; Web Apps</a>, <a href="https://www.qwiklabs.com/quests/16">SysOps Administrator - Associate</a>, <a href="https://www.qwiklabs.com/quests/10">Solutions Architect - Associate</a>.
+If you complete this lab you'll receive credit for it when you enroll in one of these quests.
+</p>
+<p class="small-label l-mbs">
+<strong>
+Duration:
+</strong>
+1m setup
+·
+45m access
+·
+25m completion
+</p>
+<p class="small-label l-mbs">
+<strong>AWS Region:</strong>
+[us-west-2] <strong>US West (Oregon)</strong>
+</p>
+<p class="small-label l-mbs">
+<span><strong>Levels: </strong>introductory</span>
+</p>
+<p class="small-label">
+<strong>
+Permalink:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/2493">https://www.qwiklabs.com/catalog_lab/2493</a>
+</p>
+</div>
+<div class="modal-actions">
+<a class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect" data-dismiss="modal" data-upgraded=",MaterialButton,MaterialRipple">
+Got It
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+</div>
+
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/saved_resource(1).html"></iframe>
+</div>
+<div class="modal fade" id="lab-review-modal" style="display: none;">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<form class="simple_form js-lab-review-form" id="new_lab_review" action="https://www.qwiklabs.com/lab_reviews" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓"><div class="modal-body">
+<p class="label">
+How satisfied are you with this lab?*
+</p>
+<div class="rateit js-rateit" data-rateit-max="5" data-rateit-min="0" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="0"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 80px; display: block;"></div><div class="rateit-hover" style="height: 16px; width: 0px; display: none;"></div></div></div>
+<div class="l-mtm">
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="1416333" name="lab_review[user_id]" id="lab_review_user_id"></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id"></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2493" name="lab_review[lab_id]" id="lab_review_lab_id"></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id"></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" name="lab_review[rating]" id="lab_review_rating" value="2"></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comment</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment"></textarea></div></div>
+</div>
+</div>
+<div class="modal-actions">
+<a class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect" data-dismiss="modal" data-upgraded=",MaterialButton,MaterialRipple">
+Cancel
+<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+<input type="submit" name="commit" value="Submit" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Submit" data-upgraded=",MaterialButton,MaterialRipple"><span class="mdl-button__ripple-container"><span class="mdl-ripple is-animating" style="width: 183.069px; height: 183.069px; transform: translate(-50%, -50%) translate(60px, 11px);"></span></span></input>
+</div>
+</form>
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/saved_resource(2).html"></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  ql.labAssessment.init();
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"All done? If you end this lab, you will lose all your work. You may not be able to restart the lab if there is a quota limit. Are you sure you want to end this lab?\n","in_progress":"*In Progress*","ending":"*Ending*","starting":"*Starting, please wait*","end_concurrent_labs":"Sorry, you can only run one lab at a time. To start this lab, please confirm that you want all of your existing labs to end.\n","copied":"Copied","no_resource":"Error retrieving resource.","no_support":"No Support","mac_press":"Press ⌘-C to copy","thanks_review":"Thanks for reviewing this lab.","windows_press":"Press Ctrl-C to copy","days":"days"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+
+
+<iframe data-product="web_widget" title="No content" tabindex="-1" aria-hidden="true" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/saved_resource(3).html" style="width: 0px; height: 0px; border: 0px; position: absolute; top: -9999px;"></iframe><div><iframe title="Opens a widget where you can chat to one of our agents" id="launcher" tabindex="0" class="zEWidget-launcher zEWidget-launcher--active" style="border: none; background: transparent; z-index: 999998; transform: translateZ(0px); position: fixed; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1); transition-property: opacity, top, bottom; opacity: 1; height: 50px; max-height: 551px; min-height: 50px; margin: 10px 20px; right: 0px; bottom: 0px; width: 118px;width: 118px;" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/saved_resource(4).html"></iframe></div><div><iframe title="Find more information here" id="webWidget" tabindex="-1" class="zEWidget-webWidget " style="border: none; background: transparent; z-index: 999999; transform: translateZ(0px); position: fixed; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1); transition-property: opacity, top, bottom; opacity: 0; width: 357px; height: 100%; max-height: 565px; min-height: 150px; margin-left: 8px; margin-right: 8px; top: -9999px; visibility: hidden;" src="./Introduction to AWS Identity and Access Management (IAM) _ Qwiklabs_files/saved_resource(5).html"></iframe></div></body></html>
